@@ -9,18 +9,19 @@ import time
 import pandas as pd
 from hiteshutils import basicutils
 from hiteshutils.driveutils import drivedb
+import urllib
 
 
 def run():
     print("Start")
     t_begin = time.time()
-    excel_directory = os.path.join(os.getcwd(), "idxfiles")
-    # fetch_from_exchange_idx(excel_directory)
-    # print("Fetch Complete")
+    excel_directory = os.path.join(os.getcwd(), "fofiles")
+    fetch_from_exchange(excel_directory)
+    print("Fetch Complete")
     # filterout_bad_rows(excel_directory)
     # print("Filter Complete")
-    merge_files(excel_directory)
-    print("Merge Complete")
+    # merge_files(excel_directory)
+    # print("Merge Complete")
     # filterout_bad_files(excel_directory)
     # print("filter complete")
     # playground()
@@ -48,7 +49,7 @@ def fetch_from_exchange(excel_directory):
     if not os.path.exists(zip_directory):
         os.makedirs(zip_directory)
     start_date = date(2012,1,1)
-    end_date = date(2017,9,8)
+    end_date = date(2012,1,5)
     for fetch_date in basicutils.daterange(start_date, end_date, inclusive=True):
         print(fetch_date.strftime('%d_%m_%Y'))
         file_path = os.path.join(zip_directory, fetch_date.strftime('%d_%m_%Y') + ".zip")
@@ -63,12 +64,10 @@ def fetch_from_exchange(excel_directory):
             zip_file.close()
         except zipfile.BadZipFile:
             pass
-    shutil.rmtree(zip_directory)
+    # shutil.rmtree(zip_directory)
 
 
-def fetch_from_exchange_idx(file_directory):
-    start_date = date(2012,1,1)
-    end_date = date(2017,9,8)
+def fetch_from_exchange_idx(file_directory, header_to_be_fetched, start_date = date(2011,1,1), end_date  = date(2017,9,12)):
     for fetch_date in basicutils.daterange(start_date, end_date, inclusive=True):
         print(fetch_date.strftime('%d_%m_%Y'))
         file_path = os.path.join(file_directory, fetch_date.strftime('%d_%m_%Y') + ".csv")
